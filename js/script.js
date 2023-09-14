@@ -10,15 +10,6 @@ For assistance:
    Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
-const header= document.querySelector(".header")
-const search= `
-<label for="search" class="student-search">
-<span>Search by name</span>
-<input id="search" placeholder="Search by name...">
-<button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
-</label>
-`;    
-header.insertAdjacentHTML("beforeend", search) 
 
 /*
 Create the `showPage` function
@@ -81,3 +72,28 @@ function addPagination(list){
 // Call functions
 showPage(data, 1);
 addPagination(data);
+
+let studentData= data;
+const header= document.querySelector(".header")
+const search= `
+<label for="search" class="student-search">
+<span>Search by name</span>
+<input id="search" placeholder="Search by name...">
+<button type="button" class= "submit"><img src="img/icn-search.svg" alt="Search icon"></button>
+</label>
+`;    
+header.insertAdjacentHTML("beforeend", search) 
+const searchBar= document.getElementById("search")
+const searchButton= document.querySelector('button.submit')
+searchBar.addEventListener('keyup', () => {
+   const searchStudent= searchBar.value.toUpperCase();
+   searchButton.onclick= () => {
+      searchBar.value= '';
+   }
+   const studentListFiltered= data.filter(function (students){
+      return (students.name.first.toUpperCase().includes(searchStudent) || students.name.last.toUpperCase().includes(searchStudent))
+   });
+   studentData= studentListFiltered
+   showPage(studentData, 1);
+   addPagination(studentData);
+})
