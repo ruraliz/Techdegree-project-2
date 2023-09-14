@@ -10,8 +10,15 @@ For assistance:
    Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
-
-
+const header= document.querySelector(".header")
+const search= `
+<label for="search" class="student-search">
+<span>Search by name</span>
+<input id="search" placeholder="Search by name...">
+<button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+</label>
+`;    
+header.insertAdjacentHTML("beforeend", search) 
 
 /*
 Create the `showPage` function
@@ -39,12 +46,10 @@ function showPage (list, page){
          `;
          const printStudents = document.createElement("div")
          printStudents.innerHTML= html
-         studentList.insertAdjacentElement("beforeend", printStudents);
+         studentList.insertAdjacentElement("beforeend", printStudents);    
       } 
    }
 }
-
-
 /*
 Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
@@ -59,7 +64,7 @@ function addPagination(list){
           <button type= "button">${i}</button>
       </li>
     `;
-      linkList.insertAdjacentHTML("beforeend", html);
+      linkList.insertAdjacentHTML("beforeend", html);    
    }
    linkList.querySelector("BUTTON").classList.add("active");
    linkList.addEventListener('click', (e) => {
