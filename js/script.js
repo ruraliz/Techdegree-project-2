@@ -66,7 +66,7 @@ function addPagination(list){
     `;
       linkList.insertAdjacentHTML("beforeend", html);    
    }
-   linkList.querySelector("BUTTON").classList.add("active");
+   linkList.querySelector("button").classList.add("active");
    linkList.addEventListener('click', (e) => {
    const activeButton= linkList.querySelector(".active")
    const clickedButton= e.target.closest("button")
@@ -100,7 +100,7 @@ searchBar.addEventListener('keyup', () => {
       searchBar.value= '';
    }
    const studentListFiltered= data.filter(function (students){
-      return (students.name.first.toUpperCase().includes(searchInput) || students.name.last.toUpperCase().includes(searchInput))
+      return (students.name.first.toUpperCase().includes(searchInput) || students.name.last.toUpperCase().includes(searchInput));
    });
    studentData= studentListFiltered
    showPage(studentData, 1);
