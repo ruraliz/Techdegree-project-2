@@ -11,12 +11,12 @@ For assistance:
 */
 
 const studentsPerPage= 9 //variable that will be used to make sure there are 9 students on each page. 
-function showPage (list, page){  //function to display the students from the data list of the page. 
+function showPage (list, page){  //function to display the students from the data list on the page. 
    const startIndex = (page * studentsPerPage) - studentsPerPage; // determines which student to start and end on the page. 
    const endIndex = (page * studentsPerPage) -1;
    const studentList= document.querySelector(".student-list") // selects the ul from html file using the className student-list.
    studentList.innerHTML= ''; //prevents students from previous page from staying on the page after moving to next page.
-   if(list.length === 0){ //if statement to dislay no results if the list of students is equal to zero after the search input.
+   if(list.length === 0){ //if statement to display no results if the list of students is equal to zero after the search input.
       let noResult= `
             <p class="no-results">No results found matching your search</p>
       `; 
@@ -50,7 +50,7 @@ function addPagination(list){ // function to add pagination buttons
    const numberOfButtons= Math.ceil(list.length / studentsPerPage) // calculate the number of pages needed.
    const linkList= document.querySelector(".link-list") //selects the ul from html with className link-list.
    linkList.innerHTML= ''; 
-   for(let i=1; i<= numberOfButtons; i++ ){ //loop through the buttons and show each page number.
+   for(let i=1; i<= numberOfButtons; i++ ){ //loop through the page buttons and show each page number.
       const html= `
       <li> 
           <button type= "button">${i}</button>
@@ -59,10 +59,10 @@ function addPagination(list){ // function to add pagination buttons
       linkList.insertAdjacentHTML("beforeend", html);    //add <li> element to print the page numbers on the page.
    }
    linkList.querySelector("button").classList.add("active"); // adds the class active to the first page button 
-   linkList.addEventListener('click', (e) => { //event listener to call the showPage function and change pages
+   linkList.addEventListener('click', (e) => { //event listener to call the showPage function and change pages when page buttons are clicked
    const activeButton= linkList.querySelector(".active") //variable stores active page number
    const clickedButton= e.target.closest("button") // variable for the clicked button 
-      if(clickedButton) { // if statement to remover active class from previous active page number and add active class to newly clicked page number.
+      if(clickedButton) { // if statement to remove active class from previous active page number and add active class to newly clicked page number.
          activeButton.classList.remove("active");
          clickedButton.classList.add("active")
          showPage(data, clickedButton.innerHTML); //call showPage function with data and page number clicked passed in it
