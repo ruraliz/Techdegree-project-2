@@ -4,33 +4,28 @@ FSJS Project 2 - Data Pagination and Filtering
 */
 
 
-
 /*
 For assistance:
    Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
 
-/*
-Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students
-*/
-const studentsPerPage= 9
-function showPage (list, page){
-   const startIndex = (page * studentsPerPage) - studentsPerPage;
+const studentsPerPage= 9 //variable that will be used to make sure there are 9 students on each page. 
+function showPage (list, page){  //function to display the students from the data list of the page. 
+   const startIndex = (page * studentsPerPage) - studentsPerPage; // determines which student to start and end on the page. 
    const endIndex = (page * studentsPerPage) -1;
-   const studentList= document.querySelector(".student-list")
-   studentList.innerHTML= '';
-   if(list.length === 0){
+   const studentList= document.querySelector(".student-list") // selects the ul from html file using the className student-list.
+   studentList.innerHTML= ''; //prevents students from previous page from staying on the page after moving to next page.
+   if(list.length === 0){ //if statement to dislay no results if the list of students is equal to zero after the search input.
       let noResult= `
             <p class="no-results">No results found matching your search</p>
-      `;
+      `; 
       const printNoResult = document.createElement("div")
       printNoResult.innerHTML= noResult
-      studentList.insertAdjacentElement("beforeend", printNoResult )
+      studentList.insertAdjacentElement("beforeend", printNoResult ) //creates an new element to showcase the <P> with no results. 
       }else {
-         for (let i=0; i< list.length; i++){
-            if(i>= startIndex && i<= endIndex){
+         for (let i=0; i< list.length; i++){ //for loop to loop through the student list. 
+            if(i>= startIndex && i<= endIndex){ // if statement to showcase the students details if their number on the list is between the start and end Index.
              const html= `
                   <li class="student-item cf">
                      <div class="student-details">
@@ -45,35 +40,32 @@ function showPage (list, page){
                `;
                const printStudents = document.createElement("div")
                printStudents.innerHTML= html
-               studentList.insertAdjacentElement("beforeend", printStudents);   
+               studentList.insertAdjacentElement("beforeend", printStudents);   //create new element to actually print the students detail on the page.
             }
          }    
    }
 }
-/*
-Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
-*/
-function addPagination(list){
-   const numberOfButtons= Math.ceil(list.length / studentsPerPage)
-   const linkList= document.querySelector(".link-list")
-   linkList.innerHTML= '';
-   for(let i=1; i<= numberOfButtons; i++ ){
+
+function addPagination(list){ // function to add pagination buttons 
+   const numberOfButtons= Math.ceil(list.length / studentsPerPage) // calculate the number of pages needed.
+   const linkList= document.querySelector(".link-list") //selects the ul from html with className link-list.
+   linkList.innerHTML= ''; 
+   for(let i=1; i<= numberOfButtons; i++ ){ //loop through the buttons and show each page number.
       const html= `
       <li> 
           <button type= "button">${i}</button>
       </li>
     `;
-      linkList.insertAdjacentHTML("beforeend", html);    
+      linkList.insertAdjacentHTML("beforeend", html);    //add <li> element to print the page numbers on the page.
    }
-   linkList.querySelector("button").classList.add("active");
-   linkList.addEventListener('click', (e) => {
-   const activeButton= linkList.querySelector(".active")
-   const clickedButton= e.target.closest("button")
-      if(clickedButton) {
+   linkList.querySelector("button").classList.add("active"); // adds the class active to the first page button 
+   linkList.addEventListener('click', (e) => { //event listener to call the showPage function and change pages
+   const activeButton= linkList.querySelector(".active") //variable stores active page number
+   const clickedButton= e.target.closest("button") // variable for the clicked button 
+      if(clickedButton) { // if statement to remover active class from previous active page number and add active class to newly clicked page number.
          activeButton.classList.remove("active");
          clickedButton.classList.add("active")
-         showPage(data, clickedButton.innerHTML);
+         showPage(data, clickedButton.innerHTML); //call showPage function with data and page number clicked passed in it
       }
    })
 }
@@ -82,8 +74,7 @@ function addPagination(list){
 showPage(data, 1);
 addPagination(data);
 
-let studentData= data;
-const header= document.querySelector(".header")
+const header= document.querySelector(".header") //selected header tag by class to insert search Bar in header
 const search= `
 <label for="search" class="student-search">
 <span>Search by name</span>
@@ -91,18 +82,17 @@ const search= `
 <button type="button" class= "submit"><img src="img/icn-search.svg" alt="Search icon"></button>
 </label>
 `;    
-header.insertAdjacentHTML("beforeend", search) 
-const searchBar= document.getElementById("search")
-const searchButton= document.querySelector('button.submit')
-searchBar.addEventListener('keyup', () => {
-   const searchInput= searchBar.value.toUpperCase();
-   searchButton.onclick= () => {
+header.insertAdjacentHTML("beforeend", search)  //insert search bar in header
+const searchBar= document.getElementById("search") //store search input
+const searchButton= document.querySelector('button.submit') //store search button 
+searchBar.addEventListener('keyup', () => { //event listener to sort through search list from search input and show case filtered student list
+   const searchInput= searchBar.value.toUpperCase(); //variable store search input that is case insensitive
+   searchButton.onclick= () => { //once the search button is clicked it goes back to a value of an empty string
       searchBar.value= '';
    }
-   const studentListFiltered= data.filter(function (students){
+   const studentListFiltered= data.filter(function (students){ //store filtered student list that returns the results that match search input.
       return (students.name.first.toUpperCase().includes(searchInput) || students.name.last.toUpperCase().includes(searchInput));
    });
-   studentData= studentListFiltered
-   showPage(studentData, 1);
-   addPagination(studentData);
+   showPage(studentListFiltered, 1); //calls showPage  and addPagination functions again but with filtered student list that match search 
+   addPagination(studentListFiltered);
 })
