@@ -21,24 +21,33 @@ function showPage (list, page){
    const endIndex = (page * studentsPerPage) -1;
    const studentList= document.querySelector(".student-list")
    studentList.innerHTML= '';
-   for (let i=0; i< list.length; i++){
-      if(i>= startIndex && i<= endIndex){
-         const html= `
-            <li class="student-item cf">
-               <div class="student-details">
-                  <img class="avatar" src="${list[i].picture.large}" alt="Profile Picture">
-                  <h3>${list[i].name.first} ${list[i].name.last}</h3>    
-                  <span class="email">${list[i].email}</span>
-               </div>
-               <div class="joined-details">
-                  <span class="date">Joined ${list[i].registered.date}</span>
-               </div>
-            </li>
-         `;
-         const printStudents = document.createElement("div")
-         printStudents.innerHTML= html
-         studentList.insertAdjacentElement("beforeend", printStudents);    
-      } 
+   if(list.length === 0){
+      let noResult= `
+            <p class="no-results">No results found matching your search</p>
+      `;
+      const printNoResult = document.createElement("div")
+      printNoResult.innerHTML= noResult
+      studentList.insertAdjacentElement("beforeend", printNoResult )
+      }else {
+         for (let i=0; i< list.length; i++){
+            if(i>= startIndex && i<= endIndex){
+             const html= `
+                  <li class="student-item cf">
+                     <div class="student-details">
+                        <img class="avatar" src="${list[i].picture.large}" alt="Profile Picture">
+                        <h3>${list[i].name.first} ${list[i].name.last}</h3>    
+                        <span class="email">${list[i].email}</span>
+                     </div>
+                     <div class="joined-details">
+                        <span class="date">Joined ${list[i].registered.date}</span>
+                     </div>
+                  </li>
+               `;
+               const printStudents = document.createElement("div")
+               printStudents.innerHTML= html
+               studentList.insertAdjacentElement("beforeend", printStudents);   
+            }
+         }    
    }
 }
 /*
@@ -86,12 +95,12 @@ header.insertAdjacentHTML("beforeend", search)
 const searchBar= document.getElementById("search")
 const searchButton= document.querySelector('button.submit')
 searchBar.addEventListener('keyup', () => {
-   const searchStudent= searchBar.value.toUpperCase();
+   const searchInput= searchBar.value.toUpperCase();
    searchButton.onclick= () => {
       searchBar.value= '';
    }
    const studentListFiltered= data.filter(function (students){
-      return (students.name.first.toUpperCase().includes(searchStudent) || students.name.last.toUpperCase().includes(searchStudent))
+      return (students.name.first.toUpperCase().includes(searchInput) || students.name.last.toUpperCase().includes(searchInput))
    });
    studentData= studentListFiltered
    showPage(studentData, 1);
