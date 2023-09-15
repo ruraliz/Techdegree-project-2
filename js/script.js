@@ -65,7 +65,7 @@ function addPagination(list){ // function to add pagination buttons
       if(clickedButton) { // if statement to remove active class from previous active page number and add active class to newly clicked page number.
          activeButton.classList.remove("active");
          clickedButton.classList.add("active")
-         showPage(data, clickedButton.innerHTML); //call showPage function with data and page number clicked passed in it
+         showPage(list, clickedButton.innerHTML); //call showPage function with data and page number clicked passed in it
       }
    })
 }
